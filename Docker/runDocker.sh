@@ -5,10 +5,11 @@
 #===========================================================================
 
 
-docker build -t testing_image -f Dockerfile.
+docker build -t testing_image -f Dockerfile .
 docker run -it --name testing_container testing_image
 docker logs testing_container > result.txt
 docker rm -f testing_container
 docker image rm testing_image
+docker system prune -a
 
 exit ${?}
