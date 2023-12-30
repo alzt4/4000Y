@@ -1,7 +1,8 @@
 #!/usr/bin/bash
 # builds and runs unit tests
-# use with sudo runDocker.sh <directory containing student file named "main"
-# and unit test file named unit_test.py> or cpp
+# use with sudo runDocker.sh <directory containing another directory named
+# 	student_module, which contains a file named main and unit test file
+#	named unit_test.py or cpp>
 #===========================================================================
 #check if the user rememebered to input the arguments
 if [ -z $1 ]; then
@@ -9,7 +10,7 @@ if [ -z $1 ]; then
 	exit 1
 fi
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-STUDENTFOLDER=${SCRIPTPATH}/${1}
+STUDENTFOLDER=${1}
 TESTFOLDER=${STUDENTFOLDER}/student_module
 
 
