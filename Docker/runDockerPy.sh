@@ -32,8 +32,8 @@ fi
 
 # remember: we assume that the unit test file is one level up from where 
 # the student file is
-cp ${1} ${TESTFOLDER}
-cp ${SCRIPTPATH}/Dockerfile ${STUDENTFOLDER}
+cp -p ${1} ${TESTFOLDER}
+cp -p ${SCRIPTPATH}/Dockerfile ${STUDENTFOLDER}
 
 cd ${STUDENTFOLDER}
 docker build -t testing_image -f Dockerfile .
@@ -42,7 +42,9 @@ docker logs testing_container > result.txt
 docker rm -f testing_container
 docker image rm testing_image
 docker container prune -f
+
 cd ../
+
 rm ${TESTFOLDER}/unit_test.py
 rm ${STUDENTFOLDER}/Dockerfile
 
