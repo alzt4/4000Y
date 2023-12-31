@@ -1,9 +1,19 @@
 #!/usr/bin/bash
-
-# runs the runDocker.sh script on every student folder in a folder
-# use with sudo ./runOnFolder.sh <Course folder>, where <Course folder>
-#	is a folder containing student folders
-# Example:
+#
+#
+#
+# Written by: Adrian Lim Zheng Ting
+#
+# Description: runs the runDocker.sh script on every student folder in a folder
+#
+# Usage: sudo ./runOnCourse.sh <unit test> <Course folder>, where 
+#	<Course folder> is a folder containing student folders, and
+#	<unit test> is the path to the unit test file which works for
+# 	all files in each student folder in the Course folder
+#
+#
+#
+# Example file structure:
 # Course
 # |
 # L Dockerfile
@@ -22,12 +32,15 @@
 #        Lmain.py
 #        Lother files
 #
+# Example usage: sudo ./runOnCourse.sh ExampleCourse/unit_test.py 
+#		  ExampleCourse
+#
 #
 #===========================================================================
 
 
 #check if the user rememebered to input the arguments
-if [ -z $1 ]; then
+if [ -z ${2} ]; then
 	echo You forgot to supply an argument on the command line!
 	exit 1
 fi
@@ -36,36 +49,18 @@ fi
 # directory as this script
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-COURSEFOLDER=${1}
+COURSEFOLDER=${2}
 
 
 #check if the directory exists
-if [ ! -d ${1} ]; then
+if [ ! -d ${2} ]; then
 	echo Directory does not exist
 	exit 2
 fi
 
 for file in ${COURSEFOLDER}/*/; do
-	STUDENTFOLDER=${file}
-	TESTFOLDER=${STUDENTFOLDER}student_module
+	./runDockerPy.sh "${1}" "${file%/}"
 
-	cp ${COURSEFOLDER}/unit_test.py ${TESTFOLDER}
-
-	# Currently I assume that the dockerfiles are inside each course folder,
-	# but we can change this since it's all the same docker file anyway
-	cp ${SCRIPTPATH}/Dockerfile ${STUDENTFOLDER}
-
-	cd ${STUDENTFOLDER}
-	docker build -t testing_image -f Dockerfile .
-	docker run -it --name testing_container testing_image
-	docker logs testing_container > result.txt
-	docker rm -f testing_container
-	docker image rm testing_image
-	docker container prune -f
-	cd ${SCRIPTPATH}
-
-	rm ${TESTFOLDER}/unit_test.py
-	rm ${STUDENTFOLDER}Dockerfile
 done
 
 exit ${?}

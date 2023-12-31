@@ -1,16 +1,26 @@
 #!/usr/bin/bash
-# builds and runs unit tests
-# use with sudo runDocker.sh <directory containing another directory named
-# 	student_module, which contains a file named main and unit test file
-#	named unit_test.py or cpp>
+#
+#
+# Written by: Adrian Lim Zheng Ting
+#
+#
+# Description :  builds and runs unit tests
+# Usage: sudo ./runDocker.sh <unit_test> <directory containing another 
+#	another directory, which then contains all the student's files>
+#
+# Example: sudo ./runDocker.sh ExampleCourse/unit_test.py 
+#	   ExampleCourse/student1
+#
+#
 #===========================================================================
 #check if the user rememebered to input the arguments
-if [ -z $1 ]; then
+if [ -z ${2} ]; then
 	echo You forgot to supply an argument on the command line!
 	exit 1
 fi
+
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-STUDENTFOLDER=${1}
+STUDENTFOLDER=${2}
 TESTFOLDER=${STUDENTFOLDER}/student_module
 
 
@@ -20,7 +30,9 @@ if [ ! -d ${TESTFOLDER} ]; then
 	exit 2
 fi
 
-cp ${SCRIPTPATH}/unit_test.py ${TESTFOLDER}
+# remember: we assume that the unit test file is one level up from where 
+# the student file is
+cp ${1} ${TESTFOLDER}
 cp ${SCRIPTPATH}/Dockerfile ${STUDENTFOLDER}
 
 cd ${STUDENTFOLDER}
