@@ -14,7 +14,7 @@ class baseUnitTest(unittest.TestCase):
             print(result)
 
 
-class testSum(unittest.TestCase):
+class testSum(baseUnitTest):
     def test_test_sum(self):
         #we expect this to pass
         self.assertEqual(test_sum(1, 2), 3, "Answer should be 3")
