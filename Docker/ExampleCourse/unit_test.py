@@ -8,10 +8,7 @@ class baseUnitTest(unittest.TestCase):
     def tearDown(self):
         t = time.time() - self._startTime
         print('%s: %.3f' % (self.id(), t))
-        if hasattr(self,'_outcome'):
-            result = self.defaultTestResult()
-            self._feedErrorsToResult(result,self._outcome.errors)
-            print(result)
+
 
 
 class testSum(baseUnitTest):
@@ -21,7 +18,7 @@ class testSum(baseUnitTest):
     def test_test_sum_fail(self):
         #we expect this to fail
         self.assertEqual(test_sum(1, 3), 3, "Answer should be 3")
-    
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(testSum)
