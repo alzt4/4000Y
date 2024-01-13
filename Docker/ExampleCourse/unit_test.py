@@ -24,7 +24,7 @@ class testCases(baseUnitTest):
 class customTestRunner(unittest.TextTestRunner):
     def _makeResult(self):
         result = super()._makeResult()
-	super().stream.write(result.collectedDurations)
+        super().stream.write(result.collectedDurations)
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(testCases)
