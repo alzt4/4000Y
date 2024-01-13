@@ -3,10 +3,15 @@ import time
 from main import test_sum
 
 class baseUnitTest(unittest.TestCase):
+    _testTimes = {}
+    
+    def testTimes(self):
+        return self._testTimes
     def setUp(self):
         self._startTime = time.time()
     def tearDown(self):
         t = time.time() - self._startTime
+        self._testTimes[self.id()] = t
         print('%s: %.3f' % (self.id(), t))
 
 
@@ -23,3 +28,4 @@ class testSum(baseUnitTest):
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(testSum)
     unittest.TextTestRunner(verbosity=2).run(suite)
+    print(testSum.testTimes())
