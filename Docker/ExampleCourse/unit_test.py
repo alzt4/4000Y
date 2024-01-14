@@ -1,5 +1,6 @@
 import unittest
 import time
+import json
 from main import test_sum
 
 class baseUnitTest(unittest.TestCase):
@@ -24,8 +25,16 @@ class testCases(baseUnitTest):
 class customTestRunner(unittest.TextTestRunner):
     def _makeResult(self):
         result = super()._makeResult()
-        super().stream.write(result.collectedDurations)
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        resultDict = {
+            "successes": len(result.testsRun) - len(result.errors) - len(result.failures) - len(result.skipped) - len(result.unexpectedSuccesses),
+            "failures": len(result.failures),
+            "errors": len(result.errors),
+            "skipped": len(result.skipped),
+            "durations": result.collectedDurations
+        }
+        json_object = json.dumps(resultDict, indent=4)
+        with open("result.json", "w") as outfile:
+            outfile.write(json_object)
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(testCases)
     customTestRunner(verbosity=2).run(suite)

@@ -1,9 +1,5 @@
 # assuming dockerfile is in the same directory as a folder called 
-# "student_module_host" (which will be unique to every student in the future)
-# There should be the .py and unit_test.py file in there
-# In other words, the backend will unzip the student's files, and insert
-#       the instructor's unit test into one folder (which we call 
-#       student_module_host)
+# "student1" (which will be unique to every student in the future)
 # 1. New image, makes a folder in /testing/student_module
 # 2. check the requirements.txt and get them (in the future)
 # 3. Then we switch to another image

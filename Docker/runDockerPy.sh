@@ -39,6 +39,7 @@ cd ${STUDENTFOLDER}
 docker build -t testing_image -f Dockerfile .
 docker run -it --name testing_container testing_image
 docker logs testing_container > result.txt
+docker cp /testing/student_module/result.json result.json
 docker rm -f testing_container
 docker image rm testing_image
 docker container prune -f
