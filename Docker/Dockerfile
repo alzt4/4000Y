@@ -15,7 +15,21 @@
 FROM debian:stable-slim AS build
 
 # install prerequisites
-RUN apt-get update && apt-get install -y python3 python3-pip
+#RUN apt-get update && apt-get install -y python3 python3-pip
+# Essentially I need to get Python 3,12 and above, but apt gets 3.11
+# so this part just manually gets and installs python 3.12
+# the part I need is the collectedDurations class variable in unittest,
+# which only exists in 3.12 and above
+
+
+#RUN apt-get update && apt-get install -y python3
+RUN apt update
+RUN apt --assume-yes update
+RUN apt --assume-yes install wget
+RUN apt --assume-yes install build-essential zlib1g-dev  libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev curl software-properties-common
+RUN wget https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
+RUN tar -xf Python-3.12.1.tar.xz
+RUN cd Python-3.12.1; ./configure; make altinstall
 
 # make the testing directory for the prerequisites
 RUN mkdir -p /testing/student_module
@@ -32,8 +46,14 @@ FROM debian:stable-slim
 ENV PYTHONUNBUFFERED = 1
 # install prerequisites again (but not pip, we don't want students to have 
 #       access to that)
-RUN apt-get update && apt-get install -y python3
-
+#RUN apt-get update && apt-get install -y python3
+RUN apt update
+RUN apt --assume-yes update
+RUN apt --assume-yes install wget
+RUN apt --assume-yes install build-essential zlib1g-dev  libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev curl software-properties-common
+RUN wget https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
+RUN tar -xf Python-3.12.1.tar.xz
+RUN cd Python-3.12.1; ./configure; make altinstall
 # in theory this would copy over the required libraries as well
 COPY --from=build /testing/student_module /testing/student_module
 
@@ -44,4 +64,5 @@ COPY student_module /testing/student_module
 WORKDIR /testing/student_module
 
 # run the test and output to file
-CMD python3 -u -m unittest -v unit_test.py
+CMD python3.12 ./unit_test.py
+
