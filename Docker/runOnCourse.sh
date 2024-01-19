@@ -9,8 +9,8 @@
 # Usage: sudo ./runOnCourse.sh <unit test> <Course folder>, where 
 #	<Course folder> is a folder containing student folders, and
 #	<unit test> is the path to the unit test file which works for
-# 	all files in each student folder in the Course folder
-#
+# 	all files in each student folder in the Course folder. Absolute
+#	paths only.
 #
 #
 # Example file structure:
@@ -32,8 +32,8 @@
 #        Lmain.py
 #        Lother files
 #
-# Example usage: sudo ./runOnCourse.sh ExampleCourse/unit_test.py 
-#		  ExampleCourse
+# Example usage: sudo ./runOnCourse.sh /ExampleCourse/unit_test.py 
+#		  /ExampleCourse
 #
 #
 #===========================================================================
@@ -45,8 +45,10 @@ if [ -z ${2} ]; then
 	exit 1
 fi
 
-# we assume that the runDocker.sh and  Dockerfile files are in the same 
+# we assume that the runDocker.sh and Dockerfile files are in the same 
 # directory as this script
+
+
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 COURSEFOLDER=${2}
@@ -58,9 +60,25 @@ if [ ! -d ${2} ]; then
 	exit 2
 fi
 
+
+REQUIRED_PKG="jq"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
+echo Checking for $REQUIRED_PKG: $PKG_OK
+if [ "" = "$PKG_OK" ]; then
+  echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
+  sudo apt --yes install $REQUIRED_PKG
+fi
+
+
 for file in ${COURSEFOLDER}/*/; do
 	./runDockerPy.sh "${1}" "${file%/}"
 
 done
 
+jq -n 'reduce inputs as $s (.; .[input_filename|split("/")|.[-1]| rtrimstr(".json")] += $s)'\
+	 ${COURSEFOLDER}/*/*.json > result.json
+
+for file in ${COURSEFOLDER}/*/; do 
+	rm "${file}$(basename ${file}).json"
+done
 exit ${?}

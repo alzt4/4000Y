@@ -30,22 +30,25 @@ if [ ! -d ${TESTFOLDER} ]; then
 	exit 2
 fi
 
-# remember: we assume that the unit test file is one level up from where 
-# the student file is
+# we assume that this script is stored with the docker files
 cp -p ${1} ${TESTFOLDER}
 cp -p ${SCRIPTPATH}/Dockerfile ${STUDENTFOLDER}
 
 cd ${STUDENTFOLDER}
+# build and run
 docker build -t testing_image -f Dockerfile .
 docker run -it --name testing_container testing_image
-docker cp testing_container:/testing/student_module/result.json result.json
-docker logs testing_container >result.txt
+# copy out the result.json file from the container to the host
+docker cp testing_container:/testing/student_module/result.json \
+	"$(basename ${STUDENTFOLDER}).json"
+# clean-up
 docker rm -f testing_container
 docker image rm testing_image
 docker container prune -f
 
 cd ../
 
+# clean up the files we copied in previously
 rm ${TESTFOLDER}/unit_test.py
 rm ${STUDENTFOLDER}/Dockerfile
 

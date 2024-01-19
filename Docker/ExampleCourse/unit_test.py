@@ -1,5 +1,4 @@
 import unittest
-import time
 import json
 import pathlib
 from main import test_sum
