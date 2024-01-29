@@ -1,0 +1,34 @@
+{
+  "student1": {
+    "successes": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "durations": [
+      [
+        "test_test_sum (__main__.testCases.test_test_sum)",
+        3.1204999913825304e-05
+      ],
+      [
+        "test_test_sum_fail (__main__.testCases.test_test_sum_fail)",
+        0.0006373849998908554
+      ]
+    ]
+  },
+  "student2": {
+    "successes": 0,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "durations": [
+      [
+        "test_test_sum (__main__.testCases.test_test_sum)",
+        0.0008338509999248345
+      ],
+      [
+        "test_test_sum_fail (__main__.testCases.test_test_sum_fail)",
+        0.00045258199997988413
+      ]
+    ]
+  }
+}

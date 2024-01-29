@@ -34,13 +34,17 @@ RUN cd Python-3.12.1; ./configure; make altinstall
 # make the testing directory for the prerequisites
 RUN mkdir -p /testing/student_module
 
-# some other code here that will check for requirements.txt
-# we will handle this later, so we can validate what pip gets
-# then some other code here that will use pip and install to that folder
+# conditionally copy requirements.txt
+COPY requirements.tx[t] /testing/requirements.txt
+
+RUN apt --assume-yes install pip
+# this will throw an error if there is no requirements,txt but hopefully
+# we can just ignore that
+RUN pip install -r /testing/requirements.txt --target /testing/student_module || true
 
 #
 #
-# test build
+# test stage
 
 FROM debian:stable-slim
 ENV PYTHONUNBUFFERED = 1
