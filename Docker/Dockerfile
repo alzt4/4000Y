@@ -35,7 +35,7 @@ RUN cd Python-3.12.1; ./configure; make altinstall
 RUN mkdir -p /testing/student_module
 
 # conditionally copy requirements.txt
-COPY requirements.tx[t] /testing/requirements.txt
+COPY student_module/requirements.tx[t] /testing/requirements.txt
 
 RUN apt --assume-yes install pip
 # this will throw an error if there is no requirements,txt but hopefully

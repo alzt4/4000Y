@@ -7,11 +7,11 @@
     "durations": [
       [
         "test_test_sum (__main__.testCases.test_test_sum)",
-        3.1204999913825304e-05
+        2.772900006675627e-05
       ],
       [
         "test_test_sum_fail (__main__.testCases.test_test_sum_fail)",
-        0.0006373849998908554
+        0.0005475269999806187
       ]
     ]
   },
@@ -23,11 +23,11 @@
     "durations": [
       [
         "test_test_sum (__main__.testCases.test_test_sum)",
-        0.0008338509999248345
+        0.0006261030000587198
       ],
       [
         "test_test_sum_fail (__main__.testCases.test_test_sum_fail)",
-        0.00045258199997988413
+        0.0004796430000624241
       ]
     ]
   }
