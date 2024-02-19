@@ -32,12 +32,11 @@ fi
 
 # we assume that this script is stored with the docker files
 cp -p ${1} ${TESTFOLDER}
-cp -p ${SCRIPTPATH}/DockerfilePy ${STUDENTFOLDER}
+cp -p ${SCRIPTPATH}/Dockerfile ${STUDENTFOLDER}
 
 cd ${STUDENTFOLDER}
-
 # build and run
-docker build -t testing_image -f DockerfilePy .
+docker build -t testing_image -f Dockerfile .
 docker run -it --name testing_container testing_image
 # copy out the result.json file from the container to the host
 docker cp testing_container:/testing/student_module/result.json \
@@ -51,6 +50,6 @@ cd ../
 
 # clean up the files we copied in previously
 rm ${TESTFOLDER}/unit_test.py
-rm ${STUDENTFOLDER}/DockerfilePy
+rm ${STUDENTFOLDER}/Dockerfile
 
 exit ${?}
