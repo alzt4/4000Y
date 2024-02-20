@@ -32,6 +32,7 @@ fi
 
 # we assume that this script is stored with the docker files
 cp -p ${1} ${TESTFOLDER}
+cp -p ${SCRIPTPATH}/customTestRunner.py ${TESTFOLDER}
 cp -p ${SCRIPTPATH}/DockerfilePy ${STUDENTFOLDER}
 
 cd ${STUDENTFOLDER}
@@ -51,6 +52,7 @@ cd ../
 
 # clean up the files we copied in previously
 rm ${TESTFOLDER}/unit_test.py
+rm ${TESTFOLDER}/customTestRunner.py
 rm ${STUDENTFOLDER}/DockerfilePy
 
 exit ${?}
