@@ -60,23 +60,46 @@ if [ ! -d ${2} ]; then
 	exit 2
 fi
 
-
+#move this to a separate file when time permits
+# probably some kind of setup/auto update file?
 REQUIRED_PKG="jq"
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
 echo Checking for $REQUIRED_PKG: $PKG_OK
+
+
 if [ "" = "$PKG_OK" ]; then
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
   sudo apt --yes install $REQUIRED_PKG
 fi
 
+# The way this script checks for which unit test to run is by checking the
+# file extensions
+# if the instructor is unable to write file extensions properly then...
 
-for file in ${COURSEFOLDER}/*/; do
-	./runDockerPy.sh "${1}" "${file%/}"
+FULLFILENAME="$(basename ${1})"
+EXTENSION="${FULLFILENAME##*.}"
+echo ${FULLFILENAME}
 
-done
+if [ "$EXTENSION" = "py" ]
+then
+	for file in ${COURSEFOLDER}/*/; do
+		./runDockerPy.sh "${1}" "${file%/}"
 
+	done
+elif [ "$EXTENSION" = "cpp" ]
+then
+	for file in ${COURSEFOLDER}/*/; do
+		./runDockerCpp.sh "${1}" "${file%/}"
+	done
+else
+	echo ${EXTENSION}
+fi
 jq -n 'reduce inputs as $s (.; .[input_filename|split("/")|.[-1]| rtrimstr(".json")] += $s)'\
 	 ${COURSEFOLDER}/*/*.json > result.json
+
+# file = full path to the file
+# we know that the json generated uses the name of the directory
+# one level up
 
 for file in ${COURSEFOLDER}/*/; do 
 	rm "${file}$(basename ${file}).json"

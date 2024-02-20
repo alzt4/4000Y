@@ -30,13 +30,18 @@ if [ ! -d ${TESTFOLDER} ]; then
 	exit 2
 fi
 
-# we assume that this script is stored with the docker files
+# should be an absolute path to the folder containing the unit_test.cpp file
 cp -p ${1} ${TESTFOLDER}
-cp -p ${SCRIPTPATH}/Dockerfile ${STUDENTFOLDER}
+
+# we are assuming that the custom gtest main file is in the same folder as
+# wherever this script is
+cp -p ${SCRIPTPATH}/DockerfileCpp ${STUDENTFOLDER}
+cp -p ${SCRIPTPATH}/GTestCustom.cpp ${TESTFOLDER}
 
 cd ${STUDENTFOLDER}
+
 # build and run
-docker build -t testing_image -f Dockerfile .
+docker build -t testing_image -f DockerfileCpp .
 docker run -it --name testing_container testing_image
 # copy out the result.json file from the container to the host
 docker cp testing_container:/testing/student_module/result.json \
@@ -49,7 +54,8 @@ docker container prune -f
 cd ../
 
 # clean up the files we copied in previously
-rm ${TESTFOLDER}/unit_test.py
-rm ${STUDENTFOLDER}/Dockerfile
+rm ${TESTFOLDER}/unit_test.cpp
+rm ${TESTFOLDER}/GTestCustom.cpp
+rm ${STUDENTFOLDER}/DockerfileCpp
 
 exit ${?}

@@ -1,0 +1,56 @@
+# assuming dockerfile is in the same directory as a folder called 
+# "student1" (which will be unique to every student in the future)
+# 1. New image, makes a folder in /testing/student_module
+# 2. check the requirements.txt and get them (in the future)
+# 3. Then we switch to another image
+# 4. We get the prerequisite files, minus pip, as we do not want to give
+#       students access to that
+# 5. we copy from the previous image the required libraries
+# 6. we copy the files to be tested from the host machine 
+# 7. we test that file, output to xml which we can retrieve
+
+#
+#
+# build stage
+FROM debian:stable-slim AS build
+
+# install prerequisites
+#RUN apt-get update && apt-get install -y python3 python3-pip
+# Essentially I need to get Python 3,12 and above, but apt gets 3.11
+# so this part just manually gets and installs python 3.12
+# the part I need is the collectedDurations class variable in unittest,
+# which only exists in 3.12 and above
+
+
+
+# make the testing directory for the prerequisites
+RUN mkdir -p /testing/student_module
+RUN mkdir -p /testing/build
+RUN apt --assume-yes update
+RUN apt --assume-yes install build-essential
+RUN apt --assume-yes install g++
+RUN apt --assume-yes install git
+RUN apt --assume-yes install cmake
+RUN git clone https://github.com/google/googletest.git -b v1.14.0
+RUN cd googletest; mkdir build; cd build; cmake ..; make; make install
+
+COPY student_module /testing/student_module
+
+RUN g++ /testing/student_module/*.cpp -o /testing/build/ut.o /usr/local/lib/libgtest.a
+
+
+#
+#
+# test stage
+
+FROM debian:stable-slim
+
+# Copy only the unit test output
+COPY --chmod=755 --from=build /testing/build /testing/student_module
+
+# go into the working folder
+WORKDIR /testing/student_module
+
+# run the test and output to file
+CMD ./ut.o
+
