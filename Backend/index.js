@@ -109,18 +109,6 @@ app.post('/api/upload', (req, res) => {
 }); //app.post
 
 
-//Returns the the absolute path to the specifie file
-// !!FROM THE LOCATION OF INDEX.JS!!
-//Usage:
-//	input: relative path to desired file : string
-// 	output: absolute path to desired file : string
-//notes:
-//	Required to add filetype as well, will not work without adding the file type aswell
-function gotofile(file)
-{
-	let File = '/' + file;
-	return path.join(__dirname, File);
-}
 
 /*
 	INSERT INTO Submissions VALUES (id, filename, size, NULL, hash, uploader, datetime, Edition, course, NULL, path);
