@@ -97,26 +97,15 @@ app.post('/api/upload', (req, res) => {
 		let oldpath = files.imageTest[0].filepath;
 		let newpath = path.join(__dirname, 'uploads') + '\\' + files.imageTest[0].originalFilename;
 
-		console.log(files);
-		console.log(fields);
-
-		console.log('\n\n split \n\n');
-
-		console.log(oldpath);
-		console.log(newpath);
+		let rawdata = fs.readFileSync(oldpath); //This is getting the data of the file from temp
 
 
-		// let oldPath = files.profilePic.filepath;
-		// let newPath = path.join(__dirname, 'uploads') + '/' + files.profilePic.name;
-		// let rawdata = fs.readFileSync(oldPath);
-		
-		// fs.writeFile(newPath, rawdata, (err) => {
-		// 	if(err) console.log(err);
-			
-		// 	console.log("upload successful");
-		// 	return res.send('upload successful');
-			
-		// });//fs.writeFile
+		fs.writeFile(newpath, rawdata, (err) => {	//Writing the file into the "uploads" directory, which will be changed depending on user, course, and assignment.
+			if (err) console.log(err);				//The User should have no control over where the file is uploaded to other than the selection of the course and assignment they're uploading to, which can be controlled through the UI
+
+			console.log("Files successful");
+		})
+
 
 	}); //form.parse
 
