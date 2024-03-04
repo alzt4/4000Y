@@ -9,6 +9,7 @@
 ### Changed
 
 - Files now are directed to the "uploads" folder in the server rather than the "temp" folder locally
+- Pages are now displayed using Express.router rather than app.get()
 
 ## 2024-2-25
 

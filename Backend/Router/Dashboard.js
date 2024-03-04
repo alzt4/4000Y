@@ -54,7 +54,7 @@ router.post('/api/upload', (req, res) => {
 		res.json({ fields, files });
 		
 		let oldpath = files.imageTest[0].filepath;
-		let newpath = './uploads' + '\\' + files.imageTest[0].originalFilename;.
+		let newpath = './uploads' + '\\' + files.imageTest[0].originalFilename;
 
 		let rawdata = fs.readFileSync(oldpath); //This is getting the data of the file from temp
 
