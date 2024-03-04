@@ -92,19 +92,36 @@ app.post('/api/upload', (req, res) => {
 	const form = new formidable.IncomingForm(); //Get the form?
 	form.parse(req, (err, fields, files) => {
 
-		let oldPath = files.profilePic.filepath;
-		let newPath = path.join(__dirname, 'uploads') + '/' + files.profilePic.name;
-		let rawdata = fs.readFileSync(oldPath);
+		res.json({ fields, files });
 		
-		fs.writeFile(newPath, rawdata, (err) => {
-			if(err) console.log(err);
+		let oldpath = files.imageTest[0].filepath;
+		let newpath = path.join(__dirname, 'uploads') + '\\' + files.imageTest[0].originalFilename;
+
+		console.log(files);
+		console.log(fields);
+
+		console.log('\n\n split \n\n');
+
+		console.log(oldpath);
+		console.log(newpath);
+
+
+		// let oldPath = files.profilePic.filepath;
+		// let newPath = path.join(__dirname, 'uploads') + '/' + files.profilePic.name;
+		// let rawdata = fs.readFileSync(oldPath);
+		
+		// fs.writeFile(newPath, rawdata, (err) => {
+		// 	if(err) console.log(err);
 			
-			console.log("upload successful");
-			return res.send('upload successful');
+		// 	console.log("upload successful");
+		// 	return res.send('upload successful');
 			
-		});//fs.writeFile
+		// });//fs.writeFile
 
 	}); //form.parse
+
+
+
 
 }); //app.post
 
