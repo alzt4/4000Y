@@ -92,35 +92,29 @@ app.post('/api/upload', (req, res) => {
 	const form = new formidable.IncomingForm(); //Get the form?
 	form.parse(req, (err, fields, files) => {
 
-		let oldPath = files.profilePic.filepath;
-		let newPath = path.join(__dirname, 'uploads') + '/' + files.profilePic.name;
-		let rawdata = fs.readFileSync(oldPath);
+		res.json({ fields, files });
 		
-		fs.writeFile(newPath, rawdata, (err) => {
-			if(err) console.log(err);
-			
-			console.log("upload successful");
-			return res.send('upload successful');
-			
-		});//fs.writeFile
+		let oldpath = files.imageTest[0].filepath;
+		let newpath = path.join(__dirname, 'uploads') + '\\' + files.imageTest[0].originalFilename;
+
+		let rawdata = fs.readFileSync(oldpath); //This is getting the data of the file from temp
+
+
+		fs.writeFile(newpath, rawdata, (err) => {	//Writing the file into the "uploads" directory, which will be changed depending on user, course, and assignment.
+			if (err) console.log(err);				//The User should have no control over where the file is uploaded to other than the selection of the course and assignment they're uploading to, which can be controlled through the UI
+
+			console.log("Files successful");
+		})
+
 
 	}); //form.parse
+
+
+
 
 }); //app.post
 
 
-//Returns the the absolute path to the specifie file
-// !!FROM THE LOCATION OF INDEX.JS!!
-//Usage:
-//	input: relative path to desired file : string
-// 	output: absolute path to desired file : string
-//notes:
-//	Required to add filetype as well, will not work without adding the file type aswell
-function gotofile(file)
-{
-	let File = '/' + file;
-	return path.join(__dirname, File);
-}
 
 /*
 	INSERT INTO Submissions VALUES (id, filename, size, NULL, hash, uploader, datetime, Edition, course, NULL, path);
