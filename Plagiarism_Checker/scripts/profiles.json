@@ -1,0 +1,28 @@
+{
+  "default": {
+    "algorithm_filepath": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/Plagiarism_Checker.py",
+    "assignment_directory": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1",
+    "output_directory": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1/plagiarism_output/output.csv",
+    "has_individual_output": false,
+    "previous_submission_directories": [
+      "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/previous_submissions"
+    ],
+    "other_arguments": [
+      "--threshold",
+      "0.60"
+    ]
+  },
+  "test1": {
+    "algorithm_filepath": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/Plagiarism_Checker.py",
+    "assignment_directory": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1",
+    "output_directory": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1/plagiarism_output",
+    "has_individual_output": "false",
+    "previous_submission_directories": [
+      "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/previous_submissions"
+    ],
+    "other_arguments": [
+      "--threshold",
+      "0.60"
+    ]
+  }
+}
