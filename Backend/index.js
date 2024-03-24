@@ -4,8 +4,10 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const sql = require('mysql');
-const formidable = require('formidable');
 
+var date = new Date();
+
+//import * as test from "./FStartup.js";
 
 //Make the webserver
 const app = express();
@@ -15,16 +17,25 @@ const PORT = 8080; //Random port vals
 app.set("view engine", "ejs");
 
 
+//fsInit();
+var ChkDate = new Date("May 1, 20"); //This is going to be the date that needs to be checked next
 
-//---
+TimeCheck(ChkDate);
+
+
+//setTimeout(TimeCheck(), ChkDate);
+
+//----
 
 const dash = require("./Router/Dashboard.js");
+const { start } = require('repl');
 
 app.use('/', dash);
 app.use('/MasterSrc.js', dash);
 app.use('/style.css', dash);
 app.use('/api/upload', dash);
-//---
+
+//----
 
 
 //opening ports, waiting for connection
@@ -49,83 +60,169 @@ let con = sql.createConnection({
 
 //Connecting with DB, getting test query results and printing.
 let val;
-con.connect((err) => {
-    if (err) throw err;
-    console.log("connected!");
-    con.query(SQLStart, (err, result, fields) => {
-        if(err) throw err;
-        console.log(result);
-        val = result;
-    })
-});
 
 
 
 
-// app.get('/', (req, res) => {
+//Try connecting to DB, on error, inform, else, display
+try{
+	con.connect(()=>{
 
-// 	res.render(path.join(__dirname, "FrontEnd/main.ejs"));
-// 	console.log("ejs page sent, sending css");
+		try{
+			con.query(SQLStart, (err, result, fields) => {
+				//if(err) throw err;
+				if(result != undefined)
+				{
+					console.log("connected!");
+					console.log(result);
+				}
+				val = result;
+			});
+		}
+		catch(err){
+
+			console.log("Something went wrong: ")
+			console.log(err)
+		}
+	})
+}
+catch(err){
 	
+	console.log("Something went wrong: ");
+	console.log(err);
 	
 
-// }); //app.get
+}
 
-// app.get('/style.css', (req, res) =>{
+//----------------------------------------------------------------------------
+
+
+function fsInit()
+{
+	//Making a completely new 
+
+	let Home = __dirname; //
+	var year, Fyear;
+	year = date.getFullYear();
+	Fyear = date.getFullYear() + 1;
 	
-// 	res.sendFile(path.join(__dirname, "FrontEnd/style.css"), (err) => {
-// 		if(err)
-// 		{
-// 			console.log(`Something went wrong: ${err}`, err);
-// 		}
-// 		else{
-// 			console.log("CSS sent");
-// 		}
-// 	});//res.sendFile
-// });	//app.get('/style.css')
+	fs.mkdirSync(Home + '/' + year + '-' + Fyear); //Should make the year directory
 
-// app.get('/MasterSrc.js', (req, res) => {
+	let tmpdate = date.getMonth(); //Find out which semester we're in. Really this should happen first.
+	if(tmpdate >= 1)
+	{
+		//Second semester, do year previous and current yet
+	}
+	else if(tmpdate > 4 && tmpdate < 8)
+	{
+		//Summer semester, use current year
+	}
+	else if(tmpdate >= 9)
+	{
+		//Start of new academic year
+	}
 
-// 	res.sendFile(path.join(__dirname, "FrontEnd/MasterSrc.js"), (err) =>{
-// 		if(err)
-// 		{
-// 			console.log(`Something went wrong with the Javascript: ${err}`, err);
-// 		}
-// 		else
-// 		{
-// 			console.log("Javascript sent")
-// 		}
-// 	});//res.sendFile
-
-// });//app.get('/script)
-
-
-// app.post('/api/upload', (req, res) => {
-	
-// 	const form = new formidable.IncomingForm(); //Get the form?
-// 	form.parse(req, (err, fields, files) => {
-
-// 		res.json({ fields, files });
-		
-// 		let oldpath = files.imageTest[0].filepath;
-// 		let newpath = path.join(__dirname, 'uploads') + '\\' + files.imageTest[0].originalFilename;
-
-// 		let rawdata = fs.readFileSync(oldpath); //This is getting the data of the file from temp
-
-
-// 		fs.writeFile(newpath, rawdata, (err) => {	//Writing the file into the "uploads" directory, which will be changed depending on user, course, and assignment.
-// 			if (err) console.log(err);				//The User should have no control over where the file is uploaded to other than the selection of the course and assignment they're uploading to, which can be controlled through the UI
-
-// 			console.log("Files successful");
-// 		})
-
-
-// 	}); //form.parse
+	console.log("First directory");
+}
 
 
 
+function TimeCheck(Now){
+	//This is going to be running to check and see if the date has changed, things can be stored in
 
-// }); //app.post
+	var nDate, tmpDate;
+	var year; //Elements that change based on the time alone
+//, month
+	year = Now.getFullYear(); 	// Getting the year that we want to check against
+	month = ChkDate.getMonth();		// Getting the month that we want to chekc against
+
+/* 
+	month 8 = Fall + new year.
+	month 0 = winter
+	month 4 = summer
+*/
+
+	if(month == 8)
+	{
+		let tmp = __dirname + '/' + `${year}-${year+1}` + '/' + "Fall";
+		fs.mkdirSync(tmp, {recursive: true});
+		//New Year folder set + semester (Fall) folders
+		//check for folder
+			//Make if not there
+	}
+	else if(month == 0)
+	{
+		//New semester (Winter)
+		let tmpPath = __dirname + '/' + `${year}-${year+1}` + '/' + "Winter";
+		if(fs.existsSync(tmpPath))
+		{
+			
+		}
+		else{ fs.mkdirSync(tmpPath, {recursive: true});} //otherwise, make it
+	}
+	else if(month == 4)
+	{
+		//new semester (Summer)
+		let tmpPath = __dirname + '/' + `${year}-${year+1}` + '/' + "Summer";
+		if(fs.existsSync(tmpPath))
+		{
+			//rad shit
+		}
+		else {fs.mkdirSync(tmpPath, {recursive: true});} //Otherwise, make it
+	}
+
+
+
+	let x = ChkDate.getFullYear();
+	//After everything, get the current month, add 1 to it, and set that to be when we next check
+	if(x == 11){
+		nDate = new Date(x + 1, (ChkDate.getMonth() + 1) % 12, 1); //Next month on the first
+	}
+	else
+		nDate = new Date(x, (ChkDate.getMonth() + 1) % 12, 1); //Next month on the first
+
+	//month change = semester
+	//month change + year = academic year
+}
+
+function dirCheck(startpth, dir)
+{
+	//Checks for a directory within a pth
+
+	let tmppth = startpth + '/' + dir;
+
+	if(fs.existsSync(tmppth)){
+		return 0;
+	}
+	else{
+		return 1;
+	}
+}
+
+/*/-----------------/
+
+	For Checking year, startpth is "root"
+	For Checking month, startpth is year
+	For Checking course, startpth is month/semester
+	For Checking student, startpath is course
+
+/------------------*/
+
+
+// con.connect((err) => {
+//     if (err) throw err;
+//     console.log("connected!");
+//     con.query(SQLStart, (err, result, fields) => {
+//         if(err) throw err;
+//         console.log(result);
+//         val = result;
+//     })
+// });
+
+
+
+
+
 
 
 
