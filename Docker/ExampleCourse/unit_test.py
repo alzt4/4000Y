@@ -1,6 +1,7 @@
 import unittest
-from customTestRunner import customTestRunner #this one is necessary to keep
-from main import test_sum # the instructor can replace this with whatever
+from customTestRunner import customTestRunner   #this one is necessary to keep
+from main import test_sum                       # this is whatever the student submits - the name of the file and the name 
+                                                # of the function can be customized by the instructor
 
 class testCases(unittest.TestCase):
     def test_test_sum(self):
