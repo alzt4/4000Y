@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Define the path to the JSON file test
+# Define the path to the JSON file 
 JSON_FILE="profiles.json"
 
 # Function to check if a file or directory exists
