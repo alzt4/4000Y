@@ -2,6 +2,7 @@ import os
 import csv
 import difflib
 import argparse
+import base64
 
 # Function to read file paths from a given text file
 def read_file_paths(file_path):
@@ -67,9 +68,12 @@ def main():
     threshold = args.threshold
 
     plagiarism_results = detect_plagiarism(student_file_paths, previous_file_paths, threshold)
-    write_to_csv(plagiarism_results, args.output_csv)
+    # print(plagiarism_results)
+    maxResult = round(max(test[1] for test in plagiarism_results)*100,3)
+    print(base64.b64encode(str(maxResult).encode("utf-8")).decode("utf-8"))
+    # write_to_csv(plagiarism_results, args.output_csv)
 
-    print(f"Plagiarism report generated: {args.output_csv}")
+    # print(f"Plagiarism report generated: {args.output_csv}")
 
 # Entry point for the script
 if __name__ == '__main__':

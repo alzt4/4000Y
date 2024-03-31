@@ -21,12 +21,14 @@ fi
 
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 STUDENTFOLDER=${2}
-TESTFOLDER=${STUDENTFOLDER}/student_module
+# echo $STUDENTFOLDER
+TESTFOLDER=${STUDENTFOLDER}
 
 
 #check if the directory exists
 if [ ! -d ${TESTFOLDER} ]; then
 	echo Directory does not exist
+	echo ${TESTFOLDER}
 	exit 2
 fi
 
@@ -38,21 +40,19 @@ cp -p ${SCRIPTPATH}/DockerfilePy ${STUDENTFOLDER}
 cd ${STUDENTFOLDER}
 
 # build and run
-docker build -t testing_image -f DockerfilePy .
-docker run -it --name testing_container testing_image
-# copy out the result.json file from the container to the host
-docker cp testing_container:/testing/student_module/result.json \
-	"$(basename ${STUDENTFOLDER}).json"
-# clean-up
-docker rm -f testing_container
-docker image rm testing_image
-docker container prune -f
+docker build -t testing_image -f DockerfilePy . &>/dev/null
+docker run --name testing_container testing_image &>/dev/null
+# copy the .json file as base64 to stdout for grading server to process and return
+docker cp testing_container:/testing/student_module/result.json - | tar x -O | base64
+docker rm -f testing_container &>/dev/null
+docker image rm testing_image &>/dev/null
+docker container prune -f &>/dev/null
 
 cd ../
 
 # clean up the files we copied in previously
 rm ${TESTFOLDER}/unit_test.py
-rm ${TESTFOLDER}/customTestRunner.py
-rm ${STUDENTFOLDER}/DockerfilePy
+rm ${TESTFOLDER}/customTestRunner.py 
+rm ${STUDENTFOLDER}/DockerfilePy 
 
-exit ${?}
+exit ${?} 

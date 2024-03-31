@@ -13,6 +13,7 @@ class customTestRunner(unittest.TextTestRunner):
     def run(self, test):
         result = super().run(test)
         resultDict = {
+            "total":result.testsRun,
             "successes": result.testsRun - len(result.errors) - len(result.failures) - len(result.skipped) - len(result.unexpectedSuccesses),
             "failures": len(result.failures),
             "errors": len(result.errors),

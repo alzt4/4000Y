@@ -16,7 +16,7 @@
 #
 #
 #===========================================================================
-#check if the user rememebered to input the argumen
+#check if the user rememebered to input the argument
 apt-get update
 
 #docker
