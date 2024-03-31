@@ -1,15 +1,15 @@
 {
   "default": {
-    "algorithm_filepath": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/Plagiarism_Checker.py",
-    "assignment_directory": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1",
-    "output_directory": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1/plagiarism_output/output.csv",
+    "algorithm_filepath": "/home/osboxes/Desktop/4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/Plagiarism_Checker.py",
+    "assignment_directory": "/home/osboxes/Desktop/4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1",
+    "output_directory": "/home/osboxes/Desktop/4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/output.csv",
     "has_individual_output": false,
     "previous_submission_directories": [
-      "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/previous_submissions"
+      "/home/osboxes/Desktop/4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/previous_submissions"
     ],
     "other_arguments": [
       "--threshold",
-      "0.60"
+      "0.0"
     ]
   },
   "test1": {

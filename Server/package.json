@@ -1,0 +1,35 @@
+{
+  "name": "submitly-backend",
+  "version": "1.0.0",
+  "description": "WIP server to accept files and run unit tests and plagiarism checking script",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "connect-livereload": "^0.6.1",
+    "cors": "^2.8.5",
+    "date-and-time": "^3.1.1",
+    "ejs": "^3.1.9",
+    "express": "^4.19.0",
+    "formidable": "^3.5.1",
+    "fs": "^0.0.1-security",
+    "knex": "^3.1.0",
+    "livereload": "^0.9.3",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "css-loader": "^6.10.0",
+    "postcss-loader": "^8.1.1",
+    "sass": "^1.72.0",
+    "sass-loader": "^14.1.1",
+    "style-loader": "^3.3.4",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "successes": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "durations": [
+        [
+            "test_test_sum (__main__.testCases.test_test_sum)",
+            4.108799998903123e-05
+        ],
+        [
+            "test_test_sum_fail (__main__.testCases.test_test_sum_fail)",
+            0.0007343879999552883
+        ]
+    ]
+}

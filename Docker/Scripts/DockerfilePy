@@ -12,7 +12,7 @@
 #
 #
 # build stage
-FROM debian:stable-slim AS build
+FROM python:3.12.2-slim-bullseye AS build
 
 # install prerequisites
 #RUN apt-get update && apt-get install -y python3 python3-pip
@@ -27,26 +27,22 @@ RUN apt update
 RUN apt --assume-yes update
 RUN apt --assume-yes install wget
 RUN apt --assume-yes install build-essential zlib1g-dev  libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev curl software-properties-common
-RUN wget https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
-RUN tar -xf Python-3.12.1.tar.xz
-RUN cd Python-3.12.1; ./configure; make altinstall
 
 # make the testing directory for the prerequisites
 RUN mkdir -p /testing/student_module
 
 # conditionally copy requirements.txt
-COPY student_module/requirements.tx[t] /testing/requirements.txt
-
+COPY /requirements.tx[t] /testing/requirements.txt
+RUN cat /testing/requirements.txt
 RUN apt --assume-yes install pip
 # this will throw an error if there is no requirements,txt but hopefully
 # we can just ignore that
 RUN pip install -r /testing/requirements.txt --target /testing/student_module || true
-
 #
 #
 # test stage
 
-FROM debian:stable-slim
+FROM python:3.12.2-slim-bullseye
 ENV PYTHONUNBUFFERED = 1
 # install prerequisites again (but not pip, we don't want students to have 
 #       access to that)
@@ -55,14 +51,11 @@ RUN apt update
 RUN apt --assume-yes update
 RUN apt --assume-yes install wget
 RUN apt --assume-yes install build-essential zlib1g-dev  libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev curl software-properties-common
-RUN wget https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
-RUN tar -xf Python-3.12.1.tar.xz
-RUN cd Python-3.12.1; ./configure; make altinstall
 # in theory this would copy over the required libraries as well
 COPY --from=build /testing/student_module /testing/student_module
 
 # copy in the code from the host machine into the image
-COPY student_module /testing/student_module
+COPY / /testing/student_module
 
 # go into the working folder
 WORKDIR /testing/student_module

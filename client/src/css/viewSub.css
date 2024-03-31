@@ -1,0 +1,8 @@
+.cm-editor {
+    height: 30em !important;
+    border-radius: 0.375rem;
+}
+
+.cm-scroller {
+    overflow: auto !important
+}
