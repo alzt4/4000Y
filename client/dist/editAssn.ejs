@@ -19,16 +19,12 @@
             <nav class="p-3 navbar navbar-expand-sm navbar bg-white">
                 <a class="navbar-brand" href="#">Submitly</a>
                 <div class="collapse navbar-collapse" id="collapsibleNavId">
-                    <!--TODO: How do we get to edit Assignment-->
                     <ul class="navbar-nav mt-2 mt-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" href="#" aria-current="page">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" aria-current="page">Manage Courses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#" aria-current="page">Edit a course</a>
+                            <a class="nav-link active" href="#" aria-current="page">Edit Assignment</a>
                         </li>
 
                     </ul>
@@ -95,15 +91,74 @@
                 </div>
             </div>
 
+            <div class="m-1 col-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column flex-shrink-0">
+                        <div class="flex-grow-1 flex-0 d-flex flex-column">
+
+                            <div class="h-100">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+
+                                    <h5 class="card-title fw-bold">Required Files:
+                                    </h5>
+
+                                    <button type="button" class="btn btn-dark fw-medium" data-bs-toggle="modal"
+                                        data-bs-target="#addReqModal">
+                                        <i class="fa fa-solid fa-plus fa-lg pe-1"></i>
+                                        Add
+                                    </button>
+
+                                </div>
+
+                                <div class="mt-2 mb-2">
+                                    <ul class="list-group" id="reqFiles">
+                                        <li id="fileReqPh"
+                                            class="list-group-item d-flex flex-row justify-content-between align-items-center mb-1">
+                                            <span class="fst-italic">No required files setup yet.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+
+                                    <h5 class="card-title fw-bold">Unit Test:
+                                    </h5>
+
+                                    <button type="button" class="btn btn-dark fw-medium" data-bs-toggle="modal"
+                                        data-bs-target="#addUnitModal">
+                                        <i class="fa fa-solid fa-plus fa-lg pe-1"></i>
+                                        Add
+                                    </button>
+
+                                </div>
+
+                                <div class="mt-2 mb-2">
+                                    <ul id="unitTests" class="list-group">
+                                        <li id="fileUnitPh"
+                                            class="list-group-item d-flex flex-row justify-content-between align-items-center mb-1">
+                                            <span class="fst-italic">No unit tests attached yet.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addReqModal" tabindex="-1" aria-labelledby="addReqModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Required File & Unit Test</h5>
+                    <h5 class="modal-title" id="addReqModalLabel">Add Required File & Unit Test</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -111,32 +166,20 @@
                     <div class="">
 
                         <div class="form-group">
-                            <label for="exampleInputEmail1">File Name:</label>
-                            <input type="text" class="mt-2 form-control" placeholder="Enter name">
+                            <label for="reqFileName">File Name:</label>
+                            <input name="reqFileName" type="text" class="mt-2 form-control" placeholder="Enter name">
 
                         </div>
 
                         <div class="mt-2 mb-2">
-                            <label for="exampleInputEmail1">Language:</label>
-                            <select class="mt-2 form-select" aria-label="Default select example">
-                                <option selected>Select a language..</option>
+                            <label for="reqFileLang">Language:</label>
+                            <select name="reqFileLang" class="mt-2 form-select"
+                                aria-label="Select Language For Requirement">
+                                <option value="-1" selected>Select a language..</option>
                                 <option value="1">Python</option>
                                 <option value="2">C++</option>
+                                <option value="3">Requirement Txt</option>
                             </select>
-                        </div>
-
-                        <div class="mt-2 mb-2 form-group">
-                            <label for="exampleInputEmail1">Unit Test Name:</label>
-                            <input type="text" class="mt-2 form-control" placeholder="Enter name">
-
-                        </div>
-
-                        <div class="mt-3 mb-2">
-                            <label for="fileUpload" class="file-upload btn btn-dark btn-block"> <i
-                                class="fa fa-solid fa-file fa-lg pe-1"></i>
-                            Attach Unit Test File
-                            <input class="d-none" id="fileUpload" type="file" multiple>
-                        </label>
                         </div>
 
                     </div>
@@ -148,6 +191,60 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addUnitModal" tabindex="-1" aria-labelledby="addUnitModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUnitModalLabel">Add Unit Test</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="unitTestName">Unit Test Name:</label>
+                        <input name="unitTestName" type="text" class="mt-2 form-control" placeholder="Enter name">
+
+                    </div>
+
+                    <label id="uploadUnitTest" class="btn btn-dark fw-medium mt-2">
+                        <i class="fa fa-solid fa-plus fa-lg pe-1"></i>
+                        Upload
+                        <input class="d-none" id="uploadUnit" type="file">
+                    </label>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template id="fileTemplate">
+        <li class="list-group-item d-flex flex-row justify-content-between align-items-center border">
+            <span>fileplaceholder</span>
+        </li>
+    </template>
+
+    <template id="unitTemp">
+        <div class="mt-2 list-group">
+            <div class="list-group-item d-flex flex-row justify-content-between align-items-center border">
+                <span>fileplaceholder</span>
+            </div>
+        </div>
+    </template>
+
+    <template id="reqAddTemp">
+        <li class="list-group-item d-flex flex-row justify-content-between align-items-center border">
+            <span>fileplaceholder</span>
+            <span class="border rounded p-1 px-2">langPlaceHolder</span>
+        </li>
+    </template>
+
 </body>
 
 </html>
