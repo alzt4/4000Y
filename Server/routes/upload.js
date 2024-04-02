@@ -22,19 +22,17 @@ router.post('/', function (req, res, next) {
         // console.log(fields.assignment_id[0]);
         // console.log(fields.user_id[0]);
         
-        console.log("ALSOHERE");
-        for (var i = 0; i < files.length; i++){
-            console.log(`HERE ${files[`files[${i}]`][0].originalFilename}`);
+        // for (var i = 0; i < files.length; i++){
+        //     console.log(`HERE ${files[`files[${i}]`][0].originalFilename}`);
 
-            if (files[`files[${i}]`][0].originalFilename.includes(".py")) {
-                console.log("FOUND");
-                primaryFile = i;
-            }
-        }
+        //     if (files[`files[${i}]`][0].originalFilename.includes(".py")) {
+        //         console.log("FOUND");
+        //         primaryFile = i;
+        //     }
+        // }
 
         Object.keys(files).forEach((fIndex) => {
-            if (files[fIndex][0].originalFilename.includes(".py")) {
-                console.log("FOUND");
+            if (files[fIndex][0].originalFilename.includes(".py") || files[fIndex][0].originalFilename.includes(".cpp")) {
                 primaryFile = fIndex;
             }
         });
@@ -82,29 +80,58 @@ router.post('/', function (req, res, next) {
         var unitTest = await getUnitTest(fields.assignment_id[0]);
         console.log(unitTest[0].path);
 
-        var unitTestPath = path.join(__dirname, `../../files/unit_tests/${unitTest[0].id}/${unitTest[0].path}`);
+        var unitTestPath = path.join(__dirname, `../../files/unit_tests/${unitTest[0].assnID}/${unitTest[0].path}`);
         console.log(unitTestPath);
 
-        //Run unit tests through docker container
-        let args = Array();
-        args.push(path.join(__dirname,"../../Docker/Scripts/runDockerPy.sh"));
-        args.push(unitTestPath);
-        args.push(path.join(__dirname,`../../files/submissions/${newSubID}`));
-        console.log(args);
+        if (unitTestPath.includes(".py")) {
+            //Run unit tests through docker container
+            let args = Array();
+            args.push(path.join(__dirname,"../../Docker/Scripts/runDockerPy.sh"));
+            args.push(unitTestPath);
+            args.push(path.join(__dirname,`../../files/submissions/${newSubID}`));
+            console.log(args);
 
-        var child = spawnSync("sudo", args, { encoding: 'utf8' });
-        console.log("Unit Test finished.");
-        if (child.error) {
-            console.log("ERROR: ", child.error);
+            var child = spawnSync("sudo", args, { encoding: 'utf8' });
+            console.log("Unit Test finished.");
+            if (child.error) {
+                console.log("ERROR: ", child.error);
+            }
+            
+            console.log(child.stdout);
+
+            var resultJSON = JSON.parse(Buffer.from(child.stdout, 'base64').toString());
+            
+            //Calculate Score from JSON
+            var subScore = 100 / resultJSON.total;
+            var totalScore = 100;
+
+            var scoreVal = resultJSON.successes * subScore;
+
         }
+        //If C++ detected
+        else if (unitTestPath.includes(".cpp")) {
+            ///home/osboxes/Desktop/4000Y/4000Y/Docker/Scripts/runDockerCpp.sh /home/osboxes/Desktop/4000Y/4000Y/Docker/ExampleCourse2/unit_test.cpp /home/osboxes/Desktop/4000Y/4000Y/Docker/ExampleCourse2/student1/student_module
+            //Run unit tests through docker container
+            let args = Array();
+            args.push(path.join(__dirname,"../../Docker/Scripts/runDockerCpp.sh"));
+            args.push(unitTestPath);
+            args.push(path.join(__dirname,`../../files/submissions/${newSubID}`));
+            console.log(args);
 
-        var resultJSON = JSON.parse(Buffer.from(child.stdout, 'base64').toString());
-        
-        //Calculate Score from JSON
-        var subScore = 100 / resultJSON.total;
-        var totalScore = 100;
+            var child = spawnSync("sudo", args, { encoding: 'utf8'});
+            console.log("Unit Test finished.");
+            if (child.error) {
+                console.log("ERROR: ", child.error);
+            }
 
-        var scoreVal = resultJSON.successes * subScore;
+            var resultJSON = JSON.parse(Buffer.from(child.stdout, 'base64').toString());
+
+            var subScore = 100 / resultJSON.tests;
+            var totalScore = 100;
+            var scoreVal = (resultJSON.tests-(resultJSON.failures+resultJSON.disabled+resultJSON.errors)) * subScore;
+
+            console.log(resultJSON);
+        }
 
         //Run plagiarism check.
 
@@ -162,7 +189,7 @@ async function updateSub(subID, subData) {
 
 async function getUnitTest(assnID) {
     // columns to fetch from DB
-    var fetchCols = ['unit_tests.id','unit_tests.path'];
+    var fetchCols = ['unit_tests.id','unit_tests.assnID','unit_tests.path'];
 
     var submissionRow = await db('unit_tests')
         .select(fetchCols)

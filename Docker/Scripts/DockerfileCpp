@@ -34,9 +34,9 @@ RUN apt --assume-yes install cmake
 RUN git clone https://github.com/google/googletest.git -b v1.14.0
 RUN cd googletest; mkdir build; cd build; cmake ..; make; make install
 
-COPY student_module /testing/student_module
+COPY / /testing/
 
-RUN g++ /testing/student_module/*.cpp -o /testing/build/ut.o /usr/local/lib/libgtest.a
+RUN g++ /testing/*.cpp -o /testing/build/ut.o /usr/local/lib/libgtest.a
 
 
 #

@@ -21,11 +21,12 @@ fi
 
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 STUDENTFOLDER=${2}
-TESTFOLDER=${STUDENTFOLDER}/student_module
+TESTFOLDER=${STUDENTFOLDER}
 
 
 #check if the directory exists
 if [ ! -d ${TESTFOLDER} ]; then
+	echo $TESTFOLDER
 	echo Directory does not exist
 	exit 2
 fi
@@ -41,15 +42,14 @@ cp -p ${SCRIPTPATH}/GTestCustom.cpp ${TESTFOLDER}
 cd ${STUDENTFOLDER}
 
 # build and run
-docker build -t testing_image -f DockerfileCpp .
-docker run -it --name testing_container testing_image
+docker build -t testing_image -f DockerfileCpp . &>/dev/null
+docker run --name testing_container testing_image &>/dev/null
 # copy out the result.json file from the container to the host
-docker cp testing_container:/testing/student_module/result.json \
-	"$(basename ${STUDENTFOLDER}).json"
+docker cp testing_container:/testing/student_module/result.json -| tar x -O | base64
 # clean-up
-docker rm -f testing_container
-docker image rm testing_image
-docker container prune -f
+docker rm -f testing_container &>/dev/null
+docker image rm testing_image &>/dev/null
+docker container prune -f &>/dev/null
 
 cd ../
 

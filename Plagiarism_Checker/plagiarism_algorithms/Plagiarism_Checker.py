@@ -66,9 +66,7 @@ def main():
     student_file_paths = read_file_paths(args.student_file)
     previous_file_paths = read_file_paths(args.previous_file)
     threshold = args.threshold
-
     plagiarism_results = detect_plagiarism(student_file_paths, previous_file_paths, threshold)
-    # print(plagiarism_results)
     maxResult = round(max(test[1] for test in plagiarism_results)*100,3)
     print(base64.b64encode(str(maxResult).encode("utf-8")).decode("utf-8"))
     # write_to_csv(plagiarism_results, args.output_csv)

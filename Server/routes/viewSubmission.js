@@ -59,7 +59,7 @@ router.get('/', async function (req, res, next) {
 async function getSubmissionDetails(subID) {
   // columns to fetch from DB
   var fetchCols = ['submission.id as subID', 'submission.filename', 'submission.path',
-    'submission.grade','submission.plage_grade','submission.results','assignments.test', 'assignments.due',
+    'submission.grade','submission.plage_grade','submission.results', 'assignments.due',
     'assignments.maxScore as maxScore','assignments.language', 'submission.date_uploaded', 'assignments.name as assnName',
     'assignments.id as assnID', 'course.name as courseName'];
   var submissionRow = await db('submission')

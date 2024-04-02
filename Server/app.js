@@ -8,6 +8,7 @@ var connectLiveReload = require("connect-livereload");
 
 //Import Routes
 var uploadRoute = require('./routes/upload');
+var createAssnRoute = require('./routes/createAssn');
 var viewSubRoute = require('./routes/viewSubmission');
 var getFileRoute = require('./routes/getFile');
 var assnSubHomeRoute = require('./routes/assnSubHome');
@@ -37,6 +38,7 @@ app.use(cors({
 
 //Set Routing
 app.use('/api/upload', uploadRoute);
+app.use('/api/createAssn', createAssnRoute);
 app.use('/viewSubmission', viewSubRoute);
 app.use('/getFile', getFileRoute);
 app.use('/assnSubHome', assnSubHomeRoute);

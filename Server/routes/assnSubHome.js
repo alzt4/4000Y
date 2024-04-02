@@ -19,6 +19,10 @@ router.get('/', async function (req, res, next) {
     var prevAttemptData = await getPreviousAttempts(req.query.assnID);
     console.log(prevAttemptData);
     
+    //Get Required file data
+    var requiredFileData = await getRequiredFiles(req.query.assnID);
+    console.log(requiredFileData);
+
     var pageData = {
         pageData: {
             course: {
@@ -31,14 +35,7 @@ router.get('/', async function (req, res, next) {
                 overview: assnCourseData[0].overview,
                 dueDate: date.format(assnCourseData[0].due, 'ddd, MMM DD YYYY hh:mm A'),
                 maxScore: assnCourseData[0].maxScore,
-                requiredFiles: [
-                    {
-                        name: "main.py"
-                    },
-                    {
-                        name: "requirements.txt"
-                    }
-                ],
+                requiredFiles: requiredFileData,
                 unitTests: unitTestData
             },
             attempts:prevAttemptData,
@@ -54,7 +51,7 @@ module.exports = router;
 async function getAssnDetails(assnID) {
     // columns to fetch from DB
 
-    var fetchCols = ['assignments.id', 'assignments.test', 'assignments.overview as overview',
+    var fetchCols = ['assignments.id', 'assignments.overview as overview',
         'assignments.language', 'assignments.name as assnName', 'assignments.due', 'assignments.maxScore', 'course.id as courseId',
         'course.name as courseName'];
     var submissionRow = await db('assignments')
@@ -68,6 +65,20 @@ async function getAssnDetails(assnID) {
         );
     return submissionRow;
 }
+
+
+async function getRequiredFiles(assnID) {
+    // columns to fetch from DB
+
+    var fetchCols = ['required_files.name'];
+    var requiredFiles = await db('required_files')
+        .select(fetchCols)
+        .where({
+            'required_files.assn': assnID
+        });
+    return requiredFiles;
+}
+
 
 async function getUnitTests(assnID) {
     // columns to fetch from DB

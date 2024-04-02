@@ -86,18 +86,27 @@
                                     Submission</a>
                             </div>
                             <div class="list-group list-group">
-                                <%for(var i=0;i<pageData.attempts.length;i++){%>
-                                    <div
-                                        class="list-group-item d-flex flex-row justify-content-between align-items-center">
-                                        <div>
-                                            <a class="text-decoration-none text-dark" href=<%=`/viewSubmission?subID=${pageData.attempts[i].id}`%>>Attempt <%=pageData.attempts[i].attemptNo%></a>
-                                            <!-- <span class="text-secondary"><%=pageData.attempts[i].date%></span> -->
+                                <%if(pageData.attempts.length>0){%>
+                                    <%for(var i=0;i<pageData.attempts.length;i++){%>
+                                        <div
+                                            class="list-group-item d-flex flex-row justify-content-between align-items-center">
+                                            <div>
+                                                <a class="text-decoration-none text-dark" href=<%=`/viewSubmission?subID=${pageData.attempts[i].id}`%>>Attempt <%=pageData.attempts[i].attemptNo%></a>
+                                                <!-- <span class="text-secondary"><%=pageData.attempts[i].date%></span> -->
+                                            </div>
+                                            <span class="border rounded p-1 px-2">
+                                                <%=pageData.attempts[i].score%>/<%=pageData.attempts[i].maxScore%>
+                                            </span>
                                         </div>
-                                        <span class="border rounded p-1 px-2">
-                                            <%=pageData.attempts[i].score%>/<%=pageData.attempts[i].maxScore%>
-                                        </span>
+                                    <%}}%>
+                                <%if(pageData.attempts.length<=0){%>
+                                    <div
+                                    class="list-group-item d-flex flex-row justify-content-between align-items-center">
+                                        <div>
+                                            <span class="text-decoration-none text-dark">No attempts made yet.</a>
+                                        </div>
                                     </div>
-                                    <%}%>
+                                <%}%>
                             </div>
                         </div>
                     </div>

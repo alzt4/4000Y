@@ -100,7 +100,12 @@
                                         Tests Passed
                                     </span>
                                     <span class="border p-1 rounded-2 text-center">
-                                        <%=assignmentAttempt.unitTest.successes%>
+                                        <%if(assignmentAttempt.unitTest.successes!=null){%>
+                                            <%=assignmentAttempt.unitTest.successes%>
+                                        <%}%>
+                                        <%if(assignmentAttempt.unitTest.successes==null){%>
+                                            <%=(assignmentAttempt.unitTest.tests-(assignmentAttempt.unitTest.failures+assignmentAttempt.unitTest.disabled+assignmentAttempt.unitTest.errors))%>
+                                        <%}%>
                                     </span>
                                 </div>
                                 <div class="list-group-item d-flex flex-row align-items-center justify-content-between">
