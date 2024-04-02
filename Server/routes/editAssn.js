@@ -39,8 +39,11 @@ router.post('/', function (req, res, next) {
     form.parse(req, async (err, fields, files) => {
         console.log(files);
 
+        assnID = fields.assnID
+
         //Create and catch created assignment
         var assnData = {
+            "id": assnID,
             "name": fields.assn_name,
             "course": fields.course,
             "overview": fields.assn_descrip,
@@ -50,19 +53,19 @@ router.post('/', function (req, res, next) {
             "maxScore":fields.maxScore
         };
 
-        var newAssnID = await updateAssn(assnData);
+        await updateAssn(assnData);
 
         //Create Required File Entries
         var reqFiles = JSON.parse(fields.reqFiles);
         reqFiles.forEach(async (file) => {
-            file["assn"] = newAssnID;
-            var reqFileID = await updateReqFile(file);
+            file["assn"] = assnID;
+            await updateReqFile(file);
         });
 
         //Store Unit Test in files/unit_tests/<assign_no>
-        fs.mkdirSync(path.join(__dirname, `../../files/unit_tests/${newAssnID}`));
+        fs.mkdirSync(path.join(__dirname, `../../files/unit_tests/${assnID}`));
         let oldpath = files['files[0]'][0].filepath;
-        let newpath = path.join(__dirname, `../../files/unit_tests/${newAssnID}`) + '/' + files['files[0]'][0].originalFilename;
+        let newpath = path.join(__dirname, `../../files/unit_tests/${assnID}`) + '/' + files['files[0]'][0].originalFilename;
         let rawdata = fs.readFileSync(oldpath);
 
         fs.writeFileSync(newpath, rawdata, (err) => {	
@@ -73,7 +76,7 @@ router.post('/', function (req, res, next) {
 
         var unitTestData = {
             "name": fields.unitTest,
-            "assnID": newAssnID,
+            "assnID": assnID,
             "language": fields.language,
             "size": files['files[0]'][0].size,
             "path": files['files[0]'][0].originalFilename
