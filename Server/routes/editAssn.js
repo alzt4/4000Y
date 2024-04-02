@@ -3,11 +3,9 @@ const express = require("express");
 const router = express.Router();
 router.use(express.json());
 const db = require('../db-config.js');
-const express = require("express");
 const path = require('path');
 const fs = require('fs');
 const formidable = require('formidable');
-const db = require('../db-config.js');
 
 router.get('/', async function (req, res, next) {
 
