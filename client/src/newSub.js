@@ -47,7 +47,7 @@ async function createSubmission() {
 
     //POST file to grading server
 
-    var uploadFileResp = await axios.post('http://127.0.1.1:8021/api/upload', uploadSubFD, {
+    var uploadFileResp = await axios.post('/api/upload', uploadSubFD, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }

@@ -5,6 +5,7 @@ module.exports = {
         assnSub: '../client/src/assnSub.js',
         newSub: '../client/src/newSub.js',
         newAssn: '../client/src/newAssn.js',
+        editAssn: '../client/src/editAssn.js',
         manageCourses: '../client/src/manageCourses.js',
         newCourse: '../client/src/newCourse.js',
         instructorHome: '../client/src/instructorHome.js',

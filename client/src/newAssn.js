@@ -155,5 +155,9 @@ async function submit() {
     });
 
     console.log(uploadFileResp);
+
+    window.location.replace(`/viewAssns?courseID=${ urlParams.get("course")}`);
+
+   
     
 }

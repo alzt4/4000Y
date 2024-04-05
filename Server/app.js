@@ -9,10 +9,12 @@ var connectLiveReload = require("connect-livereload");
 //Import Routes
 var uploadRoute = require('./routes/upload');
 var createAssnRoute = require('./routes/createAssn');
+var editAssnAPIRoute = require('./routes/api-editAssn');
 var viewSubRoute = require('./routes/viewSubmission');
 var getFileRoute = require('./routes/getFile');
 var assnSubHomeRoute = require('./routes/assnSubHome');
 var createSubRoute = require('./routes/createSub');
+var viewAssnRoute = require('./routes/viewAssignments');
 var newAssnRoute = require('./routes/newAssn');
 var editAssnRoute = require('./routes/editAssn');
 var manageCoursesRoute = require('./routes/manageCourses');
@@ -40,10 +42,12 @@ app.use(cors({
 //Set Routing
 app.use('/api/upload', uploadRoute);
 app.use('/api/createAssn', createAssnRoute);
+app.use('/api/editAssn', editAssnAPIRoute);
 app.use('/viewSubmission', viewSubRoute);
 app.use('/getFile', getFileRoute);
 app.use('/assnSubHome', assnSubHomeRoute);
 app.use('/newSub', createSubRoute);
+app.use('/viewAssns', viewAssnRoute);
 app.use('/newAssn', newAssnRoute);
 app.use('/editAssn', editAssnRoute);
 app.use('/manageCourses', manageCoursesRoute);

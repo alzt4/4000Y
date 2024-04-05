@@ -51,10 +51,11 @@ router.post('/', function (req, res, next) {
             "path": files['files[0]'][0].originalFilename
         };
 
-
-
         var newUnitTestID = await createUnitTest(unitTestData);
 
+        res.status(200).send({
+            "message": "Success",
+        });
     });
 
 });
