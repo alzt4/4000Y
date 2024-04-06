@@ -21,7 +21,7 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavId">
                     <ul class="navbar-nav mt-2 mt-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="#" aria-current="page">Home</a>
+                            <a class="nav-link" href="/instructorHome?userID=0" aria-current="page">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="#" aria-current="page">Edit Assignment</a>
@@ -45,7 +45,7 @@
         <div class="d-flex flex-row justify-content-center container p-0 h-75">
 
             <!--Submission Card-->
-            <div class="m-1 col-8">
+            <div class="m-1 col">
                 <div class="card h-100">
                     <div class="card-body d-flex flex-column flex-shrink-0">
                         <div class="flex-grow-1 flex-0">
@@ -54,7 +54,7 @@
                             <div>
                                 <div class="form-group mt-2 mb-2">
                                     <label for="assnName">Assignment Name:</label>
-                                    <input name="assnName" type="text" class="form-control" placeholder="Enter name">
+                                    <input name="assnName" type="text" class="form-control" placeholder="Enter name" value="<%=assignment.name%>">
                                     <small id="emailHelp" class="form-text text-muted">Maximum of 100
                                         characters.</small>
                                 </div>
@@ -62,27 +62,38 @@
                                 <div class="mt-2 mb-2">
                                     <label for="assnDescrip" class="form-label">Assignment Description</label>
                                     <textarea name="assnDescrip" class="form-control" id="assnDescrip"
-                                        rows="3"></textarea>
+                                        rows="3"><%=assignment.overview%></textarea>
                                 </div>
 
                                 <div class="form-group mt-2 mb-2">
                                     <label for="maxScore">Maximum Score</label>
                                     <input type="number" class="form-control" id="maxScore" name="maxScore" min="1"
-                                        max="100">
+                                        max="100" value="<%=assignment.maxScore%>">
                                 </div>
 
                                 <div class="form-group mt-2 mb-2">
                                     <label for="dueDate">Due date:</label>
-                                    <input class="form-control" type="date" id="dueDate" name="dueDate" />
+                                    <input class="form-control" type="date" id="dueDate" name="dueDate" 
+                                    value="<%=assignment.due.toLocaleDateString('en-CA')%>"/>
                                 </div>
 
                                 <div class="form-group mt-2 mb-2">
                                     <label for="assnLang">Language:</label>
                                     <select name="assnLang" class="mt-2 form-select"
                                         aria-label="Select Language For Assignment">
-                                        <option value="-1" selected>Select a language..</option>
-                                        <option value="1">Python</option>
-                                        <option value="2">C++</option>
+                                        <%if(assignment.language=="C++"){%>
+                                            <option value="-1">Select a language..</option>
+                                            <option value="1">Python</option>
+                                            <option value="2" selected>C++</option>
+                                        <%} else if(assignment.language=="Python"){%>
+                                            <option value="-1">Select a language..</option>
+                                            <option value="1" selected>Python</option>
+                                            <option value="2">C++</option>
+                                        <%}else{%>
+                                            <option value="-1" selected>Select a language..</option>
+                                            <option value="1">Python</option>
+                                            <option value="2">C++</option>
+                                        <%}%>
                                     </select>
                                 </div>
 
@@ -93,66 +104,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="m-1 col-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column flex-shrink-0">
-                        <div class="flex-grow-1 flex-0 d-flex flex-column">
-
-                            <div class="h-100">
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-
-                                    <h5 class="card-title fw-bold">Required Files:
-                                    </h5>
-
-                                    <button type="button" class="btn btn-dark fw-medium" data-bs-toggle="modal"
-                                        data-bs-target="#addReqModal">
-                                        <i class="fa fa-solid fa-plus fa-lg pe-1"></i>
-                                        Add
-                                    </button>
-
-                                </div>
-
-                                <div class="mt-2 mb-2">
-                                    <ul class="list-group" id="reqFiles">
-                                        <li id="fileReqPh"
-                                            class="list-group-item d-flex flex-row justify-content-between align-items-center mb-1">
-                                            <span class="fst-italic">No required files setup yet.</span>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                            </div>
-
-                            <div>
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-
-                                    <h5 class="card-title fw-bold">Unit Test:
-                                    </h5>
-
-                                    <button type="button" class="btn btn-dark fw-medium" data-bs-toggle="modal"
-                                        data-bs-target="#addUnitModal">
-                                        <i class="fa fa-solid fa-plus fa-lg pe-1"></i>
-                                        Add
-                                    </button>
-
-                                </div>
-
-                                <div class="mt-2 mb-2">
-                                    <ul id="unitTests" class="list-group">
-                                        <li id="fileUnitPh"
-                                            class="list-group-item d-flex flex-row justify-content-between align-items-center mb-1">
-                                            <span class="fst-italic">No unit tests attached yet.</span>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -170,10 +121,10 @@
 
                         <div class="form-group">
                             <label for="reqFileName">File Name:</label>
-                            <input name="reqFileName" type="text" class="mt-2 form-control" placeholder="Enter name">
+                            <input name="reqFileName" type="text" class="mt-2 form-control" 
+                            placeholder="Enter name" >
 
                         </div>
-
                         <div class="mt-2 mb-2">
                             <label for="reqFileLang">Language:</label>
                             <select name="reqFileLang" class="mt-2 form-select"
