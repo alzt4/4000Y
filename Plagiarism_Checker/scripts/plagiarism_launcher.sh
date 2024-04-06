@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the path to the JSON configuration file
-CONFIG_FILE="/home/osboxes/Desktop/4000Y/4000Y/Plagiarism_Checker/scripts/profiles.json"
+CONFIG_FILE="profiles.json"
 
 stringContain() { case $2 in *$1* ) return 0;; *) return 1;; esac ;}
 
@@ -26,7 +26,14 @@ run_plagiarism_check() {
     fi
 
     algorithm_filepath=$(echo "$profile_config" | jq -r '.algorithm_filepath')
-    assignment_directory=$2    
+
+    if [ -n "$2" ]; then
+        # For testing purposes 
+        assignment_directory=$2 
+    else
+        assignment_directory=$(echo "$profile_config" | jq -r '.assignment_directory')
+    fi
+   
     output_directory=$(echo "$profile_config" | jq -r '.output_directory')
     previous_submission_directories=$(echo "$profile_config" | jq -r '.previous_submission_directories | join(" ")')
     other_arguments=$(echo "$profile_config" | jq -r '.other_arguments | join(" ")')
@@ -45,26 +52,27 @@ run_plagiarism_check() {
     
     if stringContain ".py" "$submissions"; then
         python=true
-    elif stringContain ".cpp" "$submissions"; then
+    fi
+    if stringContain ".cpp" "$submissions"; then
         cpp=true
     fi
 
     # Find program files in the assignment directory and write to the temporary file
-    if("$python" = true); then
+    if [[ "$python" == "true" ]]; then
         find "$assignment_directory" -name '*.py' -exec echo {} \; > "$current_submissions_file"
-        # Create a temporary file for previous submissions
-        previous_submissions_file=$(mktemp)
-        # Iterate over each previous submission directory and write program files to the temporary file
-        for dir in $previous_submission_directories; do
-            find "$dir" -name '*.py' -exec echo {} \; >> "$previous_submissions_file"
-        done
-    elif("$cpp" = true); then 
+    elif [[ "$cpp" == "true" ]]; then
         find "$assignment_directory" -name '*.cpp' -exec echo {} \; > "$current_submissions_file"
-        # Create a temporary file for previous submissions
+    fi
+
+    # Create a temporary file for previous submissions if necessary
+    if [[ "$python" == "true" || "$cpp" == "true" ]]; then
         previous_submissions_file=$(mktemp)
-        # Iterate over each previous submission directory and write program files to the temporary file
         for dir in $previous_submission_directories; do
-            find "$dir" -name '*.cpp' -exec echo {} \; >> "$previous_submissions_file"
+            if [[ "$python" == "true" ]]; then
+                find "$dir" -name '*.py' -exec echo {} \; >> "$previous_submissions_file"
+            elif [[ "$cpp" == "true" ]]; then
+                find "$dir" -name '*.cpp' -exec echo {} \; >> "$previous_submissions_file"
+            fi
         done
     fi
     

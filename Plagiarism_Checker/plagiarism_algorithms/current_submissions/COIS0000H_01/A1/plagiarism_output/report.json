@@ -1,0 +1,14 @@
+{
+    "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1/0000001_student1/student_module/student1.py": {
+        "similarity_percentage": "100.00%",
+        "plagiarised_file_path": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1/0000006_student6/student_module/copy_of_student1.py"
+    },
+    "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1/0000006_student6/student_module/copy_of_student1.py": {
+        "similarity_percentage": "60.62%",
+        "plagiarised_file_path": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/previous_submissions/previous1.py"
+    },
+    "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/current_submissions/COIS0000H_01/A1/0000002_student2/student_module/student2.py": {
+        "similarity_percentage": "74.42%",
+        "plagiarised_file_path": "/home/averychin/COIS4000Y/4000Y/Plagiarism_Checker/plagiarism_algorithms/previous_submissions/previous2.py"
+    }
+}
