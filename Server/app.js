@@ -55,6 +55,9 @@ app.use('/newCourse', newCourseRoute);
 app.use('/editCourse', editCourseRoute);
 app.use('/instructorHome', instructorHomeRoute);
 app.use('/viewCourse', viewCourseRoute);
+app.use('/delete?courseID=', manageCoursesRoute); //Delete Course route added
+
+
 
 //opening ports, waiting for connection
 app.listen(PORT, () => console.log(`Server is up and running on port: ${PORT}`, PORT));
