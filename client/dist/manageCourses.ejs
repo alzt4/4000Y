@@ -51,13 +51,13 @@
                             <h5 class="card-title fw-bold">Manage Courses</h5>
                             <div class="list-group list-group">
 								<p> Thsi is a test of where things are</p>
-								<%for(var i=0;i<pageData.courseNum;i++) { %>
+								<%for(var i=0;i<courseNum;i++) { %>
 								<div class="list-group-item d-flex flex-row justify-content-between align-items-center">
 										<script>console.log("This is working.")</script>
 										<p>This is a test string</p>
 										<p><%=JSON.stringify(pageData.courses[i].department)%> <%=JSON.stringify(pageData.courses[i].courseId)%> - <%=JSON.stringify(pageData.courses[i].courseName)%></p>
 										<a name="" id="" class="btn btn-warning" href="/editCourse?id=<%=pageData.courses[i].courseId%>" role="button"><i class="fa fa-solid fa-edit fa-lg"></i></a>
-										<button type="button" name="<%=pageData.pageData.courses[i].courseId%>" id="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button"><i class="fa fa-solid fa-trash fa-lg"></i></a>
+										<button type="button" name="<%=pageData.courses[i].courseId%>" id="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" role="button"><i class="fa fa-solid fa-trash fa-lg"></i></a>
 									</div>
 									<div>
 										<!-- This is where the buttons would be if I need to put the them in-->

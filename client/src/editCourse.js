@@ -7,6 +7,7 @@ const urlParams = new URLSearchParams(queryString);
 const SubButton = document.getElementById('submitbtn'); //Go make sure this is actually a thing sooner or later
 
 SubButton.addEventListener('click', async () => {
+
 	await submit();
 }); //End of eventlistener
 
@@ -16,8 +17,8 @@ async function submit(){
 
 	//Things we're actually updating. Name and description. Conveinietnly forgetting, like always that there isnt a description part of the database so idk what Kris as thinking with this but w/e
 
-	var coursName = document.querySelector("input[name=\"courseName\"]"); //Getting a name query?
-	var description = document.querySelector("textarea[name=\"CourseDesc\"]"); //updating the descriptiom. Maybe?
+	var coursName = document.querySelector("input[id=\"CourseName\"]"); //Getting a name query?
+	var description = document.querySelector("textarea[id=\"CourseDesc\"]"); //updating the descriptiom. Maybe?
 
 
 	var uploadCourseFD = new FormData();
@@ -33,7 +34,7 @@ async function submit(){
 	});
 
 	console.log(updateResp);
-
-	window.location.replace(`/viewCourse?courseID=${urlParams.get("courseID")}`);
-
+	console.log('Things went right!');
+	//window.location.replace(`/viewCourse?courseID=${urlParams.get("courseID")}`);
+	//Dare I say something needs to be inserted as a "confirmed" kind of option
 }

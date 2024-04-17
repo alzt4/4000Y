@@ -6,14 +6,14 @@ const db = require('../db-config.js');
 
 router.get('/', async function (req, res, next) {
 
-	courseName = await getCourses(req.query.courseID);
+	courseName = await getCourses(req.query.id);
 
 	//console.log(courseName[0]);
     // ^ was a testing line.
 
 	var pageData = {
 		pageData:{
-			id:req.query.courseID,
+			id:req.query.id,
 			courses: courseName[0].name,
 			desc: courseName[0].description //This isnt proper, I know that its not proper
 		}
