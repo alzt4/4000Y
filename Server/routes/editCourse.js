@@ -35,16 +35,3 @@ async function getCourses(courseID) {
 	return subRow;
 
 }
-
-async function updateCourse(courseID, data)
-{
-	var fetchCols = ['course.id', "course.name", 'course.Student_Roster', 'course.TA', 'course.assignments', 'course.description'];
-	var upRow = await db('course')
-		.where({
-			'course.id':courseID
-		})
-		.update({
-			'course.name':data.course.name,
-			'course.description':data.course.desc
-		});
-}
