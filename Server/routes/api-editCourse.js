@@ -22,7 +22,7 @@ router.post('/', function (req, res, next) {
 
         crsData={
 			"name": fields.crs_Name[0],
-			"Desc": fields.crs_Desc[0]
+			"description": fields.crs_Desc[0]
         }
 
         var editedCourseID = await updateCourse(crsData, fields.crs_id[0]);

@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `professor` smallint UNSIGNED NOT NULL,
   `TA` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'list of TAs',
   `assignments` int UNSIGNED NOT NULL,
+  `description` varchar(1000) NOT NULL, -- Addition day of client demonstration
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
